@@ -17,14 +17,21 @@ module TooDone
     option :date, :aliases => :d,
       :desc => "A Due Date in YYYY-MM-DD format."
     def add(task)
-      # find or create the right todo list
-      # create a new item under that list, with optional date
+      puts "Add task to which list?"
+      list = STDIN.gets.chomp.downcase
+      thislist = List.find_or_create_by!(title: list, user_id: current_user.id)
+      puts "Due Date?(YYYY-MM-DD)"
+      duedate = STDIN.gets.chomp.downcase
+      completed = false
+      listid = thislist.id
+      thistask = Task.find_or_create_by!(item: task, duedate: duedate, completed: completed, list_id: listid)
     end
 
     desc "edit", "Edit a task from a todo list."
     option :list, :aliases => :l, :default => "*default*",
       :desc => "The todo list whose tasks will be edited."
     def edit
+
       # find the right todo list
       # BAIL if it doesn't exist and have tasks
       # display the tasks and prompt for which one to edit
@@ -35,6 +42,10 @@ module TooDone
     option :list, :aliases => :l, :default => "*default*",
       :desc => "The todo list whose tasks will be completed."
     def done
+      #puts "What list is the task on?"
+      #list = STDIN.gets.chomp.downcase
+     # thislist = List.find_by!(title: list, user_id: current_user.id)
+
       # find the right todo list
       # BAIL if it doesn't exist and have tasks
       # display the tasks and prompt for which one(s?) to mark done
@@ -81,3 +92,7 @@ end
 
 # binding.pry
 TooDone::App.start(ARGV)
+
+# add
+      # find or create the right todo list
+      # create a new item under that list, with optional date

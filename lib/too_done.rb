@@ -2,6 +2,8 @@ require "too_done/version"
 require "too_done/init_db"
 require "too_done/user"
 require "too_done/session"
+require "too_done/list"
+require "too_done/task"
 
 require "thor"
 require "pry"
